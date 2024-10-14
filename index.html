@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botones Interactivos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        #noBtn, #thinkBtn {
+            position: relative;
+        }
+    </style>
+    <!-- Incluir SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+    <h1>¿Te gustaría salir por un café y platicar un rato?</h1>
+
+    <div class="button-container">
+        <button id="yesBtn">Sí</button>
+        <button id="noBtn">No</button>
+        <button id="thinkBtn">Déjame pensarlo</button>
+    </div>
+
+    <script>
+        // Función para mostrar mensaje al presionar "Sí"
+        document.getElementById("yesBtn").addEventListener("click", function() {
+            Swal.fire({
+                icon: 'success',
+                title: '¡Gracias!',
+                text: 'Sabía que dirías que sí 😊',
+                confirmButtonText: '¡Chula!'
+            });
+        });
+
+        // Función para mover el botón si el ratón se acerca a menos de 100px
+        function moveButtonAway(button) {
+            const distance = 100; // Distancia mínima para activar el movimiento
+            button.addEventListener("mousemove", function(e) {
+                const rect = button.getBoundingClientRect();
+                const mouseX = e.clientX;
+                const mouseY = e.clientY;
+
+                // Calcular la distancia entre el mouse y el centro del botón
+                const buttonX = rect.left + rect.width / 2;
+                const buttonY = rect.top + rect.height / 2;
+                const deltaX = mouseX - buttonX;
+                const deltaY = mouseY - buttonY;
+                const distanceToMouse = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+                if (distanceToMouse < distance) {
+                    // Mover el botón a una posición aleatoria
+                    const newX = Math.random() * (window.innerWidth - button.offsetWidth);
+                    const newY = Math.random() * (window.innerHeight - button.offsetHeight);
+                    button.style.left = newX + 'px';
+                    button.style.top = newY + 'px';
+                    button.style.position = 'absolute';
+                }
+            });
+        }
+
+        // Aplicar la función a los botones "No" y "Déjame pensarlo"
+        moveButtonAway(document.getElementById("noBtn"));
+        moveButtonAway(document.getElementById("thinkBtn"));
+    </script>
+
+</body>
+</html>
